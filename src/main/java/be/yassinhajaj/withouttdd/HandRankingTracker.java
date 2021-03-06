@@ -1,67 +1,133 @@
 package be.yassinhajaj.withouttdd;
 
 public class HandRankingTracker {
-    boolean isFlush = true;
-    boolean isStraight = true;
-    boolean highestCardAce = false;
+    boolean foundFlush = true;
+    boolean foundStraight = true;
+    boolean recordedAceAsHighCard = false;
     int[] valueCountTracker = new int[13];
-    boolean isPair = false;
-    boolean isTwoPair = false;
-    boolean isThreeOfAKind = false;
-    boolean isFourOfAKind = false;
+    boolean foundPair = false;
+    boolean foundTwoPair = false;
+    boolean foundThreeOfAKind = false;
+    boolean foundFourOfAKind = false;
 
     public void incrementValueCount(int index) {
         valueCountTracker[index]++;
     }
 
-    public boolean recordedAceAsHighCard() {
-        return highestCardAce;
+    public boolean alreadyRecordedAceAsHighCard() {
+        return recordedAceAsHighCard;
     }
 
     public void recordAceAsHighCard() {
-        this.highestCardAce = true;
+        this.recordedAceAsHighCard = true;
     }
 
-    public void updateIsFlush(boolean hasSameSuitThan) {
-        this.isFlush &= hasSameSuitThan;
+    public void decideForFlush(boolean stillFlush) {
+        this.foundFlush &= stillFlush;
     }
 
-    public void updateIsStraight(boolean isJustBefore) {
-        this.isStraight &= isJustBefore;
+    public void decideForStraight(boolean stillStraight) {
+        this.foundStraight &= stillStraight;
     }
 
-    public boolean hasStraightFlush() {
-        return isFlush && isStraight;
+    public boolean foundStraightFlush() {
+        return foundFlush && foundStraight;
     }
 
-    public boolean hasFlush() {
-        return isFlush;
+    public boolean foundFlush() {
+        return foundFlush;
     }
 
-    public boolean hasStraight() {
-        return isStraight;
+    public boolean foundStraight() {
+        return foundStraight;
+    }
+
+    public boolean foundFourOfAKind() {
+        return foundFourOfAKind;
+    }
+
+    public boolean foundFullHouse() {
+        return foundPair && foundThreeOfAKind;
+    }
+
+    public boolean foundThreeOfAKind() {
+        return foundThreeOfAKind;
+    }
+
+    public boolean foundTwoPair() {
+        return foundTwoPair;
+    }
+
+    public boolean foundPair() {
+        return foundPair;
+    }
+
+    public HandRanking getTrackingResult() {
+        HandRanking straightOrFlushDecision = getStraightOrFlushTrackingResult();
+        if (straightOrFlushDecision != null) {
+            return straightOrFlushDecision;
+        }
+        return getSameCardsTrackingResult();
+    }
+
+    private HandRanking getStraightOrFlushTrackingResult() {
+        if (this.foundStraightFlush()) {
+            return this.alreadyRecordedAceAsHighCard() ? HandRanking.ROYAL_FLUSH : HandRanking.STRAIGHT_FLUSH;
+        }
+
+        if (this.foundFlush()) {
+            return HandRanking.FLUSH;
+        }
+
+        if (this.foundStraight()) {
+            return HandRanking.STRAIGHT;
+        }
+
+        return null;
+    }
+
+    private HandRanking getSameCardsTrackingResult() {
+        applySameCardsRules();
+
+        if (this.foundFourOfAKind()) {
+            return HandRanking.FOUR_OF_A_KIND;
+        }
+        if (this.foundFullHouse()) {
+            return HandRanking.FULL_HOUSE;
+        }
+        if (this.foundThreeOfAKind()) {
+            return HandRanking.THREE_OF_A_KIND;
+        }
+        if (this.foundTwoPair()) {
+            return HandRanking.TWO_PAIR;
+        }
+        if (this.foundPair()) {
+            return HandRanking.PAIR;
+        }
+        return HandRanking.HIGH_CARD;
     }
 
     public void applySameCardsRules() {
         TRACKER_LOOP:
+
         for (int i : valueCountTracker) {
             switch (i) {
                 case 2: {
-                    if (isPair) {
-                        isPair = false;
-                        isTwoPair = true;
+                    if (foundPair) {
+                        foundPair = false;
+                        foundTwoPair = true;
                         break TRACKER_LOOP;
                     } else {
-                        isPair = true;
+                        foundPair = true;
                     }
                 }
                 break;
                 case 3: {
-                    isThreeOfAKind = true;
+                    foundThreeOfAKind = true;
                 }
                 break;
                 case 4: {
-                    isFourOfAKind = true;
+                    foundFourOfAKind = true;
                     break TRACKER_LOOP;
                 }
                 default: {
@@ -69,70 +135,5 @@ public class HandRankingTracker {
                 }
             }
         }
-    }
-
-    public boolean hasFourOfAKind() {
-        return isFourOfAKind;
-    }
-
-    public boolean hasFullHouse() {
-        return isPair && isThreeOfAKind;
-    }
-
-    public boolean hasThreeOfAKind() {
-        return isThreeOfAKind;
-    }
-
-    public boolean hasTwoPair() {
-        return isTwoPair;
-    }
-
-    public boolean hasPair() {
-        return isPair;
-    }
-
-    public HandRanking getStraightOrFlushDecision() {
-        if (this.hasStraightFlush()) {
-            return this.recordedAceAsHighCard() ? HandRanking.ROYAL_FLUSH : HandRanking.STRAIGHT_FLUSH;
-        }
-
-        if (this.hasFlush()) {
-            return HandRanking.FLUSH;
-        }
-
-        if (this.hasStraight()) {
-            return HandRanking.STRAIGHT;
-        }
-
-        return null;
-    }
-
-    public HandRanking getDecision() {
-        HandRanking straightOrFlushDecision = getStraightOrFlushDecision();
-        if (straightOrFlushDecision != null) {
-            return straightOrFlushDecision;
-        }
-        return getSameCardsDecision();
-    }
-
-    private HandRanking getSameCardsDecision() {
-        applySameCardsRules();
-
-        if (this.hasFourOfAKind()) {
-            return HandRanking.FOUR_OF_A_KIND;
-        }
-        if (this.hasFullHouse()) {
-            return HandRanking.FULL_HOUSE;
-        }
-        if (this.hasThreeOfAKind()) {
-            return HandRanking.THREE_OF_A_KIND;
-        }
-        if (this.hasTwoPair()) {
-            return HandRanking.TWO_PAIR;
-        }
-        if (this.hasPair()) {
-            return HandRanking.PAIR;
-        }
-        return HandRanking.HIGH_CARD;
     }
 }

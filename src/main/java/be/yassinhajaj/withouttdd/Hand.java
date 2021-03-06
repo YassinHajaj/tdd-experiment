@@ -31,7 +31,7 @@ public class Hand {
     public HandRanking getRanking() {
         HandRankingTracker tracker = new HandRankingTracker();
         enrichTrackerWithPreliminaryData(tracker);
-        return tracker.getDecision();
+        return tracker.getTrackingResult();
     }
 
     private void enrichTrackerWithPreliminaryData(HandRankingTracker tracker) {
@@ -39,12 +39,12 @@ public class Hand {
 
         for (Card card : cards) {
             tracker.incrementValueCount(card.getValuesRanking() - 1);
-            if (!tracker.recordedAceAsHighCard() && card.isAce()) {
+            if (!tracker.alreadyRecordedAceAsHighCard() && card.isAce()) {
                 tracker.recordAceAsHighCard();
             }
             if (previous != null) {
-                tracker.updateIsFlush(card.hasSameSuitThan(previous));
-                tracker.updateIsStraight(previous.isJustBefore(card));
+                tracker.decideForFlush(card.hasSameSuitThan(previous));
+                tracker.decideForStraight(previous.isJustBefore(card));
             }
             previous = card;
         }
