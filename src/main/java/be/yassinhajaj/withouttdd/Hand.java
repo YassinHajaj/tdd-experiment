@@ -30,11 +30,11 @@ public class Hand {
 
     public HandRanking getRanking() {
         HandRankingTracker tracker = new HandRankingTracker();
-        enrichTrackerWithPreliminaryData(tracker);
+        scanCards(tracker);
         return tracker.getTrackingResult();
     }
 
-    private void enrichTrackerWithPreliminaryData(HandRankingTracker tracker) {
+    private void scanCards(HandRankingTracker tracker) {
         Card previous = null;
 
         for (Card card : cards) {
