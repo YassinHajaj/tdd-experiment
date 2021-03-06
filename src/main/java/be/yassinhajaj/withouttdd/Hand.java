@@ -29,97 +29,25 @@ public class Hand {
     }
 
     public HandRanking getRanking() {
-        boolean isFlush = true;
-        boolean isStraight = true;
-        boolean highestCardAce = false;
-        int[] valueCountTracker = new int[13];
+        HandRankingTracker tracker = new HandRankingTracker();
+        enrichTrackerWithPreliminaryData(tracker);
+        return tracker.getDecision();
+    }
 
+    private void enrichTrackerWithPreliminaryData(HandRankingTracker tracker) {
         Card previous = null;
 
         for (Card card : cards) {
-            valueCountTracker[card.getValuesRanking() - 1]++;
-            if (!highestCardAce && card.isAce()) {
-                highestCardAce = true;
+            tracker.incrementValueCount(card.getValuesRanking() - 1);
+            if (!tracker.recordedAceAsHighCard() && card.isAce()) {
+                tracker.recordAceAsHighCard();
             }
             if (previous != null) {
-                isFlush &= card.hasSameSuitThan(previous);
-                isStraight &= previous.isJustBefore(card);
+                tracker.updateIsFlush(card.hasSameSuitThan(previous));
+                tracker.updateIsStraight(previous.isJustBefore(card));
             }
             previous = card;
         }
-
-        if (isFlush && isStraight && highestCardAce) {
-            return HandRanking.ROYAL_FLUSH;
-        }
-        if (isFlush && isStraight) {
-            return HandRanking.STRAIGHT_FLUSH;
-        }
-        if (isFlush) {
-            return HandRanking.FLUSH;
-        }
-        if (isStraight) {
-            return HandRanking.STRAIGHT;
-        }
-
-        boolean isPair = false;
-        boolean isTwoPair = false;
-        boolean isThreeOfAKind = false;
-        boolean isFourOfAKind = false;
-
-        TRACKER_LOOP:
-        for (int i : valueCountTracker) {
-            switch (i) {
-                case 2: {
-                    if (isPair) {
-                        isTwoPair = true;
-                        break TRACKER_LOOP;
-                    } else {
-                        isPair = true;
-                    }
-                }
-                break;
-                case 3: {
-                    isThreeOfAKind = true;
-                }
-                break;
-                case 4: {
-                    isFourOfAKind = true;
-                    break TRACKER_LOOP;
-                }
-                default: {
-                    // empty default - does not do anything
-                }
-            }
-        }
-
-        if (isFourOfAKind) {
-            return HandRanking.FOUR_OF_A_KIND;
-        }
-        if (isPair && isThreeOfAKind) {
-            return HandRanking.FULL_HOUSE;
-        }
-        if (isThreeOfAKind) {
-            return HandRanking.THREE_OF_A_KIND;
-        }
-        if (isTwoPair) {
-            return HandRanking.TWO_PAIR;
-        }
-        if (isPair) {
-            return HandRanking.PAIR;
-        }
-        return HandRanking.HIGH_CARD;
     }
 
-    public enum HandRanking {
-        HIGH_CARD,
-        PAIR,
-        TWO_PAIR,
-        THREE_OF_A_KIND,
-        STRAIGHT,
-        FLUSH,
-        FULL_HOUSE,
-        FOUR_OF_A_KIND,
-        STRAIGHT_FLUSH,
-        ROYAL_FLUSH
-    }
 }
