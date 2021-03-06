@@ -2,9 +2,9 @@ package be.yassinhajaj.withouttdd;
 
 public class Result<T> {
     private final T object;
-    private final Throwable error;
+    private final RuntimeException error;
 
-    private Result(T object, Throwable error) {
+    private Result(T object, RuntimeException error) {
         this.object = object;
         this.error = error;
     }
@@ -13,11 +13,11 @@ public class Result<T> {
         return new Result<T>(object, null);
     }
 
-    public static <T> Result<T> error(Throwable error) {
+    public static <T> Result<T> error(RuntimeException error) {
         return new Result<T>(null, error);
     }
 
-    public T getOrThrow() throws Throwable {
+    public T getOrThrow() {
         if (object == null) {
             throw error;
         }

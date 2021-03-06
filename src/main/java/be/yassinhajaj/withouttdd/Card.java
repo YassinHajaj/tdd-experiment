@@ -59,7 +59,11 @@ public class Card implements Comparable<Card> {
     @Override
     public int compareTo(Card other) {
         validateNonNull(other);
-        return Objects.compare(this.value.ranking, other.value.ranking, Integer::compare);
+        int comparisonResult = Objects.compare(this.value.ranking, other.value.ranking, Integer::compare);
+        if (comparisonResult == 0) {
+            return Objects.compare(this.suit.ordinal(), other.suit.ordinal(), Integer::compare);
+        }
+        return comparisonResult;
     }
 
     public int getValuesRanking() {

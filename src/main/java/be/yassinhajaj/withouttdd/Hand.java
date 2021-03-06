@@ -32,22 +32,20 @@ public class Hand {
         boolean isFlush = true;
         boolean isStraight = true;
         boolean highestCardAce = false;
-        int[] valueCountTracker = new int[12];
+        int[] valueCountTracker = new int[13];
 
         Card previous = null;
 
         for (Card card : cards) {
-            valueCountTracker[card.getValuesRanking()]++;
+            valueCountTracker[card.getValuesRanking() - 1]++;
             if (!highestCardAce && card.isAce()) {
                 highestCardAce = true;
             }
-            if (previous == null) {
-                previous = card;
-            } else {
+            if (previous != null) {
                 isFlush &= card.hasSameSuitThan(previous);
                 isStraight &= previous.isJustBefore(card);
-                previous = card;
             }
+            previous = card;
         }
 
         if (isFlush && isStraight && highestCardAce) {
