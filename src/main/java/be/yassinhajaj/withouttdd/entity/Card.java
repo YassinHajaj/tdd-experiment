@@ -1,4 +1,7 @@
-package be.yassinhajaj.withouttdd;
+package be.yassinhajaj.withouttdd.entity;
+
+import be.yassinhajaj.withouttdd.exception.SuitNullException;
+import be.yassinhajaj.withouttdd.exception.ValueNullException;
 
 import java.util.Objects;
 

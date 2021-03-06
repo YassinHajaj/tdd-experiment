@@ -1,5 +1,12 @@
-package be.yassinhajaj.withouttdd;
+package be.yassinhajaj.withouttdd.entity;
 
+import be.yassinhajaj.withouttdd.entity.Card;
+import be.yassinhajaj.withouttdd.entity.Hand;
+import be.yassinhajaj.withouttdd.entity.HandRanking;
+import be.yassinhajaj.withouttdd.entity.Result;
+import be.yassinhajaj.withouttdd.exception.HandCardNullException;
+import be.yassinhajaj.withouttdd.exception.HandCardsCountIncorrectException;
+import be.yassinhajaj.withouttdd.exception.HandCardsNullException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

@@ -1,4 +1,8 @@
-package be.yassinhajaj.withouttdd;
+package be.yassinhajaj.withouttdd.entity;
+
+import be.yassinhajaj.withouttdd.exception.HandCardNullException;
+import be.yassinhajaj.withouttdd.exception.HandCardsCountIncorrectException;
+import be.yassinhajaj.withouttdd.exception.HandCardsNullException;
 
 import java.util.Set;
 import java.util.TreeSet;

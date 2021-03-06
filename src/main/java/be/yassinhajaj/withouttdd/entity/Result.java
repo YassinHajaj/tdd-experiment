@@ -1,4 +1,4 @@
-package be.yassinhajaj.withouttdd;
+package be.yassinhajaj.withouttdd.entity;
 
 public class Result<T> {
     private final T object;
