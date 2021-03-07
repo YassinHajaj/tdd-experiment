@@ -83,5 +83,11 @@ public class ScoreBoardTest {
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(63);
     }
 
-
+    @Test
+    @DisplayName("When a strike happens, but no pin falls in the two following rolls, then the strike has no bonus points")
+    public void strikeWithoutBonus() {
+        List<Integer> pinsFallen = Arrays.asList(10, 0, 0, 2, 4, 5, 3, 4, 1, 1, 1, 3, 4, 4, 5, 1, 5, 3, 3);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(59);
+    }
 }

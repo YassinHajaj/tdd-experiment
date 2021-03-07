@@ -22,12 +22,12 @@ public class ScoreBoard {
 
         for (int roll = 0; roll < pinsFallen.size() && framePlayed < 10; roll++, framePlayed++) {
             if (isStrike(roll)) {
-                score += calculateStrike(roll);
+                score += calculateBonusPoints(roll);
             } else if (isSpare(roll)) {
-                score += calculateSpare(roll);
+                score += calculateBonusPoints(roll);
                 roll++;
             } else {
-                score += calculateRegularScore(roll);
+                score += calculateRegularPoints(roll);
                 roll++;
             }
         }
@@ -35,23 +35,19 @@ public class ScoreBoard {
         return score;
     }
 
-    private int calculateSpare(int roll) {
+    private int calculateBonusPoints(int roll) {
         return pinsFallen.get(roll) + pinsFallen.get(roll + 1) + pinsFallen.get(roll + 2);
     }
 
-    private boolean isSpare(int roll) {
-        return pinsFallen.get(roll) + pinsFallen.get(roll + 1) == 10;
-    }
-
-    private int calculateRegularScore(int roll) {
+    private int calculateRegularPoints(int roll) {
         return pinsFallen.get(roll) + pinsFallen.get(roll + 1);
-    }
-
-    private int calculateStrike(int roll) {
-        return pinsFallen.get(roll) + pinsFallen.get(roll + 1) + pinsFallen.get(roll + 2);
     }
 
     private boolean isStrike(int roll) {
         return pinsFallen.get(roll) == 10;
+    }
+
+    private boolean isSpare(int roll) {
+        return pinsFallen.get(roll) + pinsFallen.get(roll + 1) == 10;
     }
 }
