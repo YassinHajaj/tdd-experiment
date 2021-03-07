@@ -43,4 +43,12 @@ public class ScoreBoardTest {
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(1);
     }
 
+    @Test
+    @DisplayName("If the player manages to make pins fall throughout the whole game, but never does a strike or a spare, then its score is the sum of all fallen pins")
+    public void pinsFallenThroughoutWholeGameWithoutStrikeOrSpare() {
+        List<Integer> pinsFallen = Arrays.asList(3, 4, 4, 1, 2, 2, 4, 5, 3, 4, 7, 1, 1, 3, 4, 4, 5, 1, 9, 0);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(67);
+    }
+
 }
