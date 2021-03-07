@@ -25,6 +25,7 @@ public class ScoreBoard {
                 score += calculateStrike(roll);
             } else if (isSpare(roll)) {
                 score += calculateSpare(roll);
+                roll++;
             } else {
                 score += calculateRegularScore(roll);
                 roll++;

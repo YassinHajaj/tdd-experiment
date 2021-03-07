@@ -75,5 +75,13 @@ public class ScoreBoardTest {
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(74);
     }
 
+    @Test
+    @DisplayName("When 10 pins fall as second roll, then it counts as a spare")
+    public void tenFallButIsSpareTest() {
+        List<Integer> pinsFallen = Arrays.asList(0, 10, 1, 2, 2, 4, 5, 3, 4, 1, 1, 1, 3, 4, 4, 5, 1, 5, 3, 3);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(63);
+    }
+
 
 }
