@@ -51,4 +51,12 @@ public class ScoreBoardTest {
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(67);
     }
 
+    @Test
+    @DisplayName("If a strike is done during the last frame, then the final score is still the sum of fallen pins, even though the player gets an extra roll")
+    public void extraRollThanksToStrikeTest() {
+        List<Integer> pinsFallen = Arrays.asList(3, 4, 4, 1, 2, 2, 4, 5, 3, 4, 7, 1, 1, 3, 4, 4, 5, 1, 10, 4, 4);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(76);
+    }
+
 }
