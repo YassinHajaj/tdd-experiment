@@ -35,5 +35,12 @@ public class ScoreBoardTest {
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(0);
     }
 
+    @Test
+    @DisplayName("If the player only managed to make a single pin fall throughout the game, then the score is equal to 1")
+    public void aSinglePinFallenDuringWholeGame() {
+        List<Integer> pinsFallen = Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(1);
+    }
 
 }
