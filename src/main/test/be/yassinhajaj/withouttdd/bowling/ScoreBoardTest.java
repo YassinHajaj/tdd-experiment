@@ -45,4 +45,10 @@ class ScoreBoardTest {
         assertThat(ScoreBoard.newInstance(integers).getOrThrow().calculateScore()).isEqualTo(16);
     }
 
+    @Test
+    public void test7() {
+        List<Integer> integers = Arrays.asList(2, 4, 3, 1, 4, 4, 2, 1, 3, 2, 3, 4, 3, 2, 4, 5, 2, 1, 3, 2);
+        assertThat(ScoreBoard.newInstance(integers).getOrThrow().calculateScore()).isEqualTo(55);
+    }
+
 }
