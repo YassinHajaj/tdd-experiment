@@ -5,7 +5,6 @@ import be.yassinhajaj.Result;
 import java.util.List;
 
 public class ScoreBoard {
-    private final static int FRAME_COUNT = 10;
     private final List<Integer> pinsFallen;
 
     private ScoreBoard(List<Integer> pinsFallen) {
