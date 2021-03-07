@@ -34,24 +34,8 @@ public class Hand {
 
     public HandRanking getRanking() {
         HandRankingTracker tracker = new HandRankingTracker();
-        scanCards(tracker);
+        tracker.scan(cards);
         return tracker.getTrackingResult();
-    }
-
-    private void scanCards(HandRankingTracker tracker) {
-        Card previous = null;
-
-        for (Card card : cards) {
-            tracker.incrementValueCount(card.getValuesRanking() - 1);
-            if (!tracker.alreadyRecordedAceAsHighCard() && card.isAce()) {
-                tracker.recordAceAsHighCard();
-            }
-            if (previous != null) {
-                tracker.decideForFlush(card.hasSameSuitThan(previous));
-                tracker.decideForStraight(previous.isJustBefore(card));
-            }
-            previous = card;
-        }
     }
 
 }

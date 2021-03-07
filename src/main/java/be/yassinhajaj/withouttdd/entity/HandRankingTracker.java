@@ -1,5 +1,7 @@
 package be.yassinhajaj.withouttdd.entity;
 
+import java.util.Set;
+
 public class HandRankingTracker {
     boolean foundFlush = true;
     boolean foundStraight = true;
@@ -10,56 +12,20 @@ public class HandRankingTracker {
     boolean foundThreeOfAKind = false;
     boolean foundFourOfAKind = false;
 
-    public void incrementValueCount(int index) {
-        valueCountTracker[index]++;
-    }
+    public void scan(Set<Card> cards) {
+        Card previous = null;
 
-    public boolean alreadyRecordedAceAsHighCard() {
-        return recordedAceAsHighCard;
-    }
-
-    public void recordAceAsHighCard() {
-        this.recordedAceAsHighCard = true;
-    }
-
-    public void decideForFlush(boolean stillFlush) {
-        this.foundFlush &= stillFlush;
-    }
-
-    public void decideForStraight(boolean stillStraight) {
-        this.foundStraight &= stillStraight;
-    }
-
-    public boolean foundStraightFlush() {
-        return foundFlush && foundStraight;
-    }
-
-    public boolean foundFlush() {
-        return foundFlush;
-    }
-
-    public boolean foundStraight() {
-        return foundStraight;
-    }
-
-    public boolean foundFourOfAKind() {
-        return foundFourOfAKind;
-    }
-
-    public boolean foundFullHouse() {
-        return foundPair && foundThreeOfAKind;
-    }
-
-    public boolean foundThreeOfAKind() {
-        return foundThreeOfAKind;
-    }
-
-    public boolean foundTwoPair() {
-        return foundTwoPair;
-    }
-
-    public boolean foundPair() {
-        return foundPair;
+        for (Card card : cards) {
+            valueCountTracker[card.getValuesRanking() - 1]++;
+            if (!recordedAceAsHighCard && card.isAce()) {
+                this.recordedAceAsHighCard = true;
+            }
+            if (previous != null) {
+                this.foundFlush &= card.hasSameSuitThan(previous);
+                this.foundStraight &= previous.isJustBefore(card);
+            }
+            previous = card;
+        }
     }
 
     public HandRanking getTrackingResult() {
@@ -70,16 +36,24 @@ public class HandRankingTracker {
         return getSameCardsTrackingResult();
     }
 
+    private boolean foundStraightFlush() {
+        return foundFlush && foundStraight;
+    }
+
+    private boolean foundFullHouse() {
+        return foundPair && foundThreeOfAKind;
+    }
+
     private HandRanking getStraightOrFlushTrackingResult() {
-        if (this.foundStraightFlush()) {
-            return this.alreadyRecordedAceAsHighCard() ? HandRanking.ROYAL_FLUSH : HandRanking.STRAIGHT_FLUSH;
+        if (foundStraightFlush()) {
+            return recordedAceAsHighCard ? HandRanking.ROYAL_FLUSH : HandRanking.STRAIGHT_FLUSH;
         }
 
-        if (this.foundFlush()) {
+        if (foundFlush) {
             return HandRanking.FLUSH;
         }
 
-        if (this.foundStraight()) {
+        if (foundStraight) {
             return HandRanking.STRAIGHT;
         }
 
@@ -89,25 +63,25 @@ public class HandRankingTracker {
     private HandRanking getSameCardsTrackingResult() {
         applySameCardsRules();
 
-        if (this.foundFourOfAKind()) {
+        if (foundFourOfAKind) {
             return HandRanking.FOUR_OF_A_KIND;
         }
-        if (this.foundFullHouse()) {
+        if (foundFullHouse()) {
             return HandRanking.FULL_HOUSE;
         }
-        if (this.foundThreeOfAKind()) {
+        if (foundThreeOfAKind) {
             return HandRanking.THREE_OF_A_KIND;
         }
-        if (this.foundTwoPair()) {
+        if (foundTwoPair) {
             return HandRanking.TWO_PAIR;
         }
-        if (this.foundPair()) {
+        if (foundPair) {
             return HandRanking.PAIR;
         }
         return HandRanking.HIGH_CARD;
     }
 
-    public void applySameCardsRules() {
+    private void applySameCardsRules() {
         for (int i : valueCountTracker) {
             switch (i) {
                 case 2: {
