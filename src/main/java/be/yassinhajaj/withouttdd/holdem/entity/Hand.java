@@ -1,6 +1,6 @@
 package be.yassinhajaj.withouttdd.holdem.entity;
 
-import be.yassinhajaj.withouttdd.Result;
+import be.yassinhajaj.Result;
 import be.yassinhajaj.withouttdd.holdem.exception.HandCardNullException;
 import be.yassinhajaj.withouttdd.holdem.exception.HandCardsCountIncorrectException;
 import be.yassinhajaj.withouttdd.holdem.exception.HandCardsNullException;

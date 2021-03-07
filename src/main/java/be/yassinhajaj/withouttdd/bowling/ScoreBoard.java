@@ -1,6 +1,6 @@
 package be.yassinhajaj.withouttdd.bowling;
 
-import be.yassinhajaj.withouttdd.Result;
+import be.yassinhajaj.Result;
 import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.List;

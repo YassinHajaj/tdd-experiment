@@ -1,6 +1,6 @@
 package be.yassinhajaj.withouttdd.holdem.entity;
 
-import be.yassinhajaj.withouttdd.Result;
+import be.yassinhajaj.Result;
 import be.yassinhajaj.withouttdd.holdem.exception.SuitNullException;
 import be.yassinhajaj.withouttdd.holdem.exception.ValueNullException;
 

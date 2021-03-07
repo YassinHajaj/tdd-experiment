@@ -1,4 +1,4 @@
-package be.yassinhajaj.withouttdd;
+package be.yassinhajaj;
 
 public class Result<T> {
     private final T object;
