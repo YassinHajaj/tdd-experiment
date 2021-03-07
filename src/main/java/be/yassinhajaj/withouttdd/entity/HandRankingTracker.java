@@ -108,15 +108,13 @@ public class HandRankingTracker {
     }
 
     public void applySameCardsRules() {
-        TRACKER_LOOP:
-
         for (int i : valueCountTracker) {
             switch (i) {
                 case 2: {
                     if (foundPair) {
                         foundPair = false;
                         foundTwoPair = true;
-                        break TRACKER_LOOP;
+                        return;
                     } else {
                         foundPair = true;
                     }
@@ -128,7 +126,7 @@ public class HandRankingTracker {
                 break;
                 case 4: {
                     foundFourOfAKind = true;
-                    break TRACKER_LOOP;
+                    return;
                 }
                 default: {
                     // empty default - does not do anything
