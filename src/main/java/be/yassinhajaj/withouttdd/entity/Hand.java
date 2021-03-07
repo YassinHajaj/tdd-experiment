@@ -34,8 +34,7 @@ public class Hand {
 
     public HandRanking getRanking() {
         HandRankingTracker tracker = new HandRankingTracker();
-        tracker.scan(cards);
-        return tracker.getTrackingResult();
+        return tracker.getRankingOf(cards);
     }
 
 }

@@ -108,4 +108,9 @@ public class HandRankingTracker {
             }
         }
     }
+
+    public HandRanking getRankingOf(Set<Card> cards) {
+        scan(cards);
+        return getTrackingResult();
+    }
 }
