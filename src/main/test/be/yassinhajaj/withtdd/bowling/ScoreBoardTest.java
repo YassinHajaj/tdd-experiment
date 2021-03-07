@@ -67,5 +67,13 @@ public class ScoreBoardTest {
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(73);
     }
 
+    @Test
+    @DisplayName("When a strike is done outside of the 10th frame, then the points of the next two shots are added to the 10 already won")
+    public void strikeTest() {
+        List<Integer> pinsFallen = Arrays.asList(10, 4, 1, 2, 2, 4, 5, 3, 4, 7, 1, 1, 3, 4, 4, 5, 1, 5, 3);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(74);
+    }
+
 
 }
