@@ -59,4 +59,13 @@ public class ScoreBoardTest {
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(76);
     }
 
+    @Test
+    @DisplayName("If a spare is done during the last frame, then the final score is still the sum of fallen pins, even though the player gets an extra roll")
+    public void extraRollThanksToSpareTest() {
+        List<Integer> pinsFallen = Arrays.asList(3, 4, 4, 1, 2, 2, 4, 5, 3, 4, 7, 1, 1, 3, 4, 4, 5, 1, 5, 5, 5);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(73);
+    }
+
+
 }
