@@ -85,9 +85,25 @@ public class ScoreBoardTest {
 
     @Test
     @DisplayName("When a strike happens, but no pin falls in the two following rolls, then the strike has no bonus points")
-    public void strikeWithoutBonus() {
+    public void strikeWithoutBonusTest() {
         List<Integer> pinsFallen = Arrays.asList(10, 0, 0, 2, 4, 5, 3, 4, 1, 1, 1, 3, 4, 4, 5, 1, 5, 3, 3);
         Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
         assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(59);
+    }
+
+    @Test
+    @DisplayName("When a strike happens, but no pin falls in the two following rolls, then only 2 pins fall per roll, the score is 42")
+    public void strikeWithoutBonusSpecial42Test() {
+        List<Integer> pinsFallen = Arrays.asList(10, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(42);
+    }
+
+    @Test
+    @DisplayName("Perfect Score: 300 points for a strike at every roll")
+    public void perfectScoreTest() {
+        List<Integer> pinsFallen = Arrays.asList(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);
+        Result<ScoreBoard> scoreBoard = ScoreBoard.newInstance(pinsFallen);
+        assertThat(scoreBoard.getOrThrow().calculateScore()).isEqualTo(300);
     }
 }
