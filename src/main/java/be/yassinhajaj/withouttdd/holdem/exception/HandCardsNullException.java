@@ -1,4 +1,4 @@
-package be.yassinhajaj.withouttdd.exception;
+package be.yassinhajaj.withouttdd.holdem.exception;
 
 public class HandCardsNullException extends RuntimeException {
 

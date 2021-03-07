@@ -1,9 +1,9 @@
 package be.yassinhajaj.withouttdd;
 
-import be.yassinhajaj.withouttdd.entity.Card;
+import be.yassinhajaj.withouttdd.holdem.entity.Card;
 
-import static be.yassinhajaj.withouttdd.entity.Card.Suit.*;
-import static be.yassinhajaj.withouttdd.entity.Card.Value.*;
+import static be.yassinhajaj.withouttdd.holdem.entity.Card.Suit.*;
+import static be.yassinhajaj.withouttdd.holdem.entity.Card.Value.*;
 
 public class AllPossibleCards {
     public static final Card DEUCE_OF_HEART = Card.newInstance(DEUCE, HEART).getOrThrow();

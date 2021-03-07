@@ -1,7 +1,8 @@
-package be.yassinhajaj.withouttdd.entity;
+package be.yassinhajaj.withouttdd.holdem.entity;
 
-import be.yassinhajaj.withouttdd.exception.SuitNullException;
-import be.yassinhajaj.withouttdd.exception.ValueNullException;
+import be.yassinhajaj.withouttdd.Result;
+import be.yassinhajaj.withouttdd.holdem.exception.SuitNullException;
+import be.yassinhajaj.withouttdd.holdem.exception.ValueNullException;
 
 import java.util.Objects;
 

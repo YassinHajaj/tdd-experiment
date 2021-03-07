@@ -1,4 +1,4 @@
-package be.yassinhajaj.withouttdd.entity;
+package be.yassinhajaj.withouttdd.holdem.entity;
 
 import java.util.Set;
 
